@@ -4,9 +4,14 @@ import Pagination from "../pagination/Pagination";
 import Image from "next/image";
 import Card from "../card/Card";
 
+const baseURL =
+  process.env.NEXT_PUBLIC_BASE_URL || // Custom base URL (set by you)
+  process.env.NEXT_PUBLIC_VERCEL_URL || // Vercel auto-generated URL
+  "http://localhost:3000"; // Fallback for local development
+
 const getData = async (page, cat) => {
   const res = await fetch(
-    `http://localhost:3000/api/posts?page=${page}&cat=${cat || ""}`,
+    `${baseURL}/api/posts?page=${page}&cat=${cat || ""}`,
     {
       cache: "no-store",
     }

@@ -3,8 +3,13 @@ import styles from "./categorylist.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
+const baseURL =
+  process.env.NEXT_PUBLIC_BASE_URL || // Custom base URL (set by you)
+  process.env.NEXT_PUBLIC_VERCEL_URL || // Vercel auto-generated URL
+  "http://localhost:3000"; // Fallback for local development
+
 const getData = async () => {
-  const res = await fetch("http://localhost:3000/api/categories", {
+  const res = await fetch(`${baseURL}/api/categories`, {
     cache: "no-store",
   });
 
