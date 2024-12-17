@@ -1,45 +1,74 @@
-import React from "react";
+"use client"; // Ensures the component runs only on the client side
+
+import React, { useEffect, useState } from "react";
 import styles from "./cardlist.module.css";
 import Pagination from "../pagination/Pagination";
-import Image from "next/image";
 import Card from "../card/Card";
 
+// Set up the base URL dynamically
 const baseURL =
-  process.env.NEXT_PUBLIC_BASE_URL || // Custom base URL (set by you)
-  process.env.NEXT_PUBLIC_VERCEL_URL || // Vercel auto-generated URL
+  process.env.NEXT_PUBLIC_BASE_URL || // Custom base URL
+  process.env.NEXT_PUBLIC_VERCEL_URL || // Vercel deployment URL
   "http://localhost:3000"; // Fallback for local development
 
-const getData = async (page, cat) => {
-  const res = await fetch(
-    `${baseURL}/api/posts?page=${page}&cat=${cat || ""}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed");
-  }
-
-  return res.json();
-};
-
-const CardList = async ({ page, cat }) => {
-  const { posts, count } = await getData(page, cat);
+const CardList = ({ page = 1, cat = "" }) => {
+  const [posts, setPosts] = useState([]);
+  const [count, setCount] = useState(0);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const POST_PER_PAGE = 4;
 
-  const hasPrev = POST_PER_PAGE * (page - 1) > 0;
+  // Fetch posts data
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${baseURL}/api/posts?page=${page}&cat=${cat || ""}`,
+          {
+            cache: "no-store", // Prevent caching for fresh data
+          }
+        );
 
+        if (!res.ok) {
+          throw new Error(`Failed to fetch posts. Status: ${res.status}`);
+        }
+
+        const result = await res.json();
+        setPosts(result.posts || []);
+        setCount(result.count || 0);
+      } catch (err) {
+        console.error("Error fetching data:", err.message);
+        setError("Failed to load posts. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData();
+  }, [page, cat]);
+
+  const hasPrev = POST_PER_PAGE * (page - 1) > 0;
   const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
+
+  if (loading) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Recent Posts</h1>
       <div className={styles.posts}>
-        {posts?.map((item) => (
-          <Card item={item} key={item._id} />
-        ))}
+        {posts.length > 0 ? (
+          posts.map((item) => <Card item={item} key={item._id} />)
+        ) : (
+          <p className={styles.noPosts}>No posts available.</p>
+        )}
       </div>
       <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} />
     </div>
