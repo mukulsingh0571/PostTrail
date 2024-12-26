@@ -46,12 +46,16 @@ NEXTAUTH_URL=*http://localhost:3000* or *your_vercel_deployment_url**(for_vercel
 
 NEXTAUTH_SECRET=*your_secret_id*
 
-DATABASE_URL=*mongidb_connection_string*
+DATABASE_URL=*mongodb_connection_string*
 
 FIREBASE=*firebase_code*
 
-NEXT_PUBLIC_BASE_URL=*http://localhost:3000* or *your_vercel_deployment_url**(for_vercel_deployment)*
+NEXT_PUBLIC_BASE_URL=*http://localhost:3000* or *your_vercel_deployment_url* *(for_vercel_deployment)*
 
 ## Live website deployed on Vercel
 
 [PostTrail](https://post-trail-j7xa.vercel.app/)
+
+
+Happy Coding😊
+
