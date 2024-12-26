@@ -38,19 +38,19 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## .env.example
 
-**GOOGLE_ID**=*your_google_id*
+GOOGLE_ID=*your_google_id*
 
-**GOOGLE_SECRET**=*your_google_secret_code*
+GOOGLE_SECRET=*your_google_secret_code*
 
-**NEXTAUTH_URL**=*http://localhost:3000* or *your_vercel_deployment_url**(for vercel deployment)*
+NEXTAUTH_URL=*http://localhost:3000* or *your_vercel_deployment_url**(for_vercel_deployment)*
 
-**NEXTAUTH_SECRET**=*your_secret_id*
+NEXTAUTH_SECRET=*your_secret_id*
 
-**DATABASE_URL**=*mongidb_connection_string*
+DATABASE_URL=*mongidb_connection_string*
 
-**FIREBASE**=*firebase_code*
+FIREBASE=*firebase_code*
 
-**NEXT_PUBLIC_BASE_URL**=*http://localhost:3000* or *your_vercel_deployment_url**(for_vercel_deployment)*
+NEXT_PUBLIC_BASE_URL=*http://localhost:3000* or *your_vercel_deployment_url**(for_vercel_deployment)*
 
 ## Live website deployed on Vercel
 
